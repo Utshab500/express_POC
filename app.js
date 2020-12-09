@@ -15,81 +15,68 @@ app.get('/', (req, res) => {
 /**
  * User Routes
  */
+
+app.get('/get_user', (req, res) => {
+    let userService= new UserService();
+    let filter = {}
+    if(Object.keys(req.query).length !== 0) {
+        filter = JSON.parse(Buffer.from(req.query.user, 'base64').toString());
+    }
+    userService.getUser(filter).then(resp => res.json(resp));
+})
+
 app.post('/add_user', (req, res) => {
 
     let userService= new UserService();
     userService.addUser(req.body).then(resp => res.json({status: resp}));
+
 })
 
 app.put('/update_user', (req, res) => {
 
     let userService= new UserService();
-    userService.updateUser(req.body);
+    userService.updateUser(req.body).then(resp => res.json({status: resp}));
 
-    res.json({
-        status: true,
-        msg: "success",
-        body: req.body
-    });
 })
 
 app.delete('/delete_user', (req, res) => {
 
     let userService= new UserService();
-    userService.deleteUser(req.query.id);
+    userService.deleteUser(req.query.id).then(resp => res.json({status: resp}));
 
-    res.json({
-        status: true,
-        msg: "success"
-    });
 })
 
 /**
  * Task Routes
  */
+app.get('/get_task', (req, res) => {
+    let taskService= new TaskService();
+    let filter = {}
+    if(Object.keys(req.query).length !== 0) {
+        filter = JSON.parse(Buffer.from(req.query.task, 'base64').toString());
+    }
+    taskService.getTask(filter).then(resp => res.json(resp));
+})
+
 app.post('/create_task', (req, res) => {
 
     let taskService = new TaskService();
-    taskService.createTask(req.body);
+    taskService.createTask(req.body).then(resp => res.json({status: resp}));
 
-    res.json({
-        status: true,
-        msg: "success"
-    });
 })
 
 app.put('/update_task', (req, res) => {
 
     let taskService= new TaskService();
-    taskService.updateTask(req.body);
+    taskService.updateTask(req.body).then(resp => res.json({status: resp}));
 
-    res.json({
-        status: true,
-        msg: "success",
-        body: req.body
-    });
 })
 
 app.delete('/delete_task', (req, res) => {
 
-    let taskService= new TaskService();
-    taskService.deleteTask(req.query.id);
+    let taskService = new TaskService();
+    taskService.deleteTask(req.query.id).then(resp => res.json({status: resp}));
 
-    res.json({
-        status: true,
-        msg: "success"
-    });
-})
-
-app.put('/assign_task', (req, res) => {
-
-    let taskService= new TaskService();
-    taskService.assignTask(req.query.id);
-
-    res.json({
-        status: true,
-        msg: "success"
-    });
 })
 
 app.listen(port, () => {

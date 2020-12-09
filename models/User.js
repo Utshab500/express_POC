@@ -11,19 +11,19 @@ class User {
          * Declearing protected members
          */
         this._id = "us_" + Math.floor(Math.random() * new Date().getTime());
-        this._name = null;
-        this._designation = null;
+        this.name = null;
+        this.designation = null;
     }
 
     // Getters 
     getId() { return this._id }
-    getName() { return this._name }
-    getDesignation(){ return this._designation } 
+    getName() { return this.name }
+    getDesignation(){ return this.designation } 
 
     //Setters
     setId(id) { this._id = id }
-    setName(name) { this._name = name }
-    setDesignation(designation) { this._designation = designation }
+    setName(name) { this.name = name }
+    setDesignation(designation) { this.designation = designation }
 
     /**
      * This function encapsulates user data to User Model. It updates the value of the
@@ -33,7 +33,13 @@ class User {
      * @param {User} UserObject 
      */
     setUser(user, UserObject) {
-        UserObject.setId(UserObject.getId());
+        if(Object.keys(user).includes('_id')) {
+            UserObject.setId(user._id);
+        }
+        else {
+            UserObject.setId(UserObject.getId());
+        }
+        
         UserObject.setName(user.name);
         UserObject.setDesignation(user.designation);
     }

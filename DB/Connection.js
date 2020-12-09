@@ -10,8 +10,8 @@ class Connection {
 
   /**
    * Provisioning for Custome connection on the go and default connection for the Application
-   * @param {*} DB_HOST 
-   * @param {*} DB_NAME 
+   * @param {string} DB_HOST 
+   * @param {string} DB_NAME 
    */
   constructor(DB_HOST="mongodb://127.0.0.1:27017/?poolSize=20&w=majority", DB_NAME="mydb") {
     this.DB_HOST = DB_HOST;
@@ -19,6 +19,9 @@ class Connection {
     this._client = null;
   }
 
+  /**
+   * @returns {status: boolean, client: MongoClient}
+   */
   getClient() {
       // Create a new MongoClient
       this._client = new MongoClient(this.DB_HOST); 
