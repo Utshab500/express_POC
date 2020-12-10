@@ -20,16 +20,17 @@ It is expected the same model should be used at the Front-end thus there will a 
  1. Clone the repository
  2. Get inside the cloned directory
  3. Install node dependencies 
-	 4. `npm install`
+	`npm install`
  4. Have Mongo service up and running and it should be available in **System Path**
  5. Run the back-end application using following command
-	 6. `node app.js`
+	`node app.js`
 
 ## API Endpoints
 
 > http://localhost:3000/add_user
 
 **Type:** POST
+
 **Request BODY:** `
 {
 	"name": "chandan",
@@ -39,15 +40,19 @@ It is expected the same model should be used at the Front-end thus there will a 
 > http://localhost:3000/update_user
 
 **Type:** PUT
+
 **Request BODY:** `
 { "_id" : "us_1205863455194", "name" : "sirso", "designation" : "officer" }`
+
 
 > http://localhost:3000/delete_user?id={value}
 
 **Type:** DELETE
+
 **Query Params:** `id`
 
 > http://localhost:3000/get_user
+
 > http://localhost:3000/get_user?user={value}
 
 **Type:** GET
