@@ -25,8 +25,9 @@ It is expected the same model should be used at the Front-end thus there will a 
  5. Run the back-end application using following command
 	`node app.js`
 
-## API Endpoints
+# API Endpoints
 
+## Add User
 > http://localhost:3000/add_user
 
 **Type:** POST
@@ -36,17 +37,20 @@ It is expected the same model should be used at the Front-end thus there will a 
 	"designation": "cleark"
 }`
 
+## Update User
 > http://localhost:3000/update_user
 
 **Type:** PUT
 **Request BODY:** `
 { "_id" : "us_1205863455194", "name" : "sirso", "designation" : "officer" }`
 
+## Delete User
 > http://localhost:3000/delete_user?id={value}
 
 **Type:** DELETE
 **Query Params:** `id`
 
+## Get User
 > http://localhost:3000/get_user
 
 > http://localhost:3000/get_user?user={value}
@@ -57,6 +61,7 @@ It is expected the same model should be used at the Front-end thus there will a 
 1. Get all --> which is self explanetory
  2. Get specific --> This accepts **user** as the query parameters. It should be a **Base64 encoded** JSON which will get converter to **User** model.  Example: `{"name" : "anupam", "designation" : "cleark"}`
 
+## Create Task
 
 > http://localhost:3000/create_task
 
@@ -67,16 +72,20 @@ It is expected the same model should be used at the Front-end thus there will a 
     "description" : "des5"
 }`
 
+## Update Task
+
 > http://localhost:3000/update_task
 
 **Type:** PUT
 **Request BODY:** `{ "_id" : "tk_724455225441", "title" : "task1", "description" : "more des1", "status" : "pending", "assingedTo" : "us_1171577053210" }`
 
+## Delete Task
 > http://localhost:3000/delete_task?id={value}
 
 **Type:** DELETE
 **Query Params:** `id`
 
+## Get Task
 > http://localhost:3000/get_task
 > http://localhost:3000/get_task?task={value}
 
