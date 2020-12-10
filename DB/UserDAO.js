@@ -12,7 +12,7 @@ class UserDAO {
     /**
      * Accepts an object of type User model and inserts into DB
      * @param {User} userDocument 
-     * @returns {boolean}
+     * @returns {JSON}
      */
     async get(userDocument = new User()) {
         let con = new Connection();

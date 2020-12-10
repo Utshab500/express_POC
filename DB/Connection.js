@@ -20,7 +20,7 @@ class Connection {
   }
 
   /**
-   * @returns {status: boolean, client: MongoClient}
+   * @returns {JSON} {status: boolean, client: MongoClient}
    */
   getClient() {
       // Create a new MongoClient
