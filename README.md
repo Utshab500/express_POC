@@ -28,6 +28,7 @@ It is expected the same model should be used at the Front-end thus there will a 
 ## API Endpoints
 
 > http://localhost:3000/add_user
+
 **Type:** POST
 **Request BODY:** `
 {
@@ -36,16 +37,20 @@ It is expected the same model should be used at the Front-end thus there will a 
 }`
 
 > http://localhost:3000/update_user
+
 **Type:** PUT
 **Request BODY:** `
 { "_id" : "us_1205863455194", "name" : "sirso", "designation" : "officer" }`
 
 > http://localhost:3000/delete_user?id={value}
+
 **Type:** DELETE
 **Query Params:** `id`
 
 > http://localhost:3000/get_user
+
 > http://localhost:3000/get_user?user={value}
+
 **Type:** GET
 **Query Params:** `user`
 **Description:** This endpoint has two nature
