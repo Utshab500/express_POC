@@ -10,6 +10,9 @@ This application exposes API endpoints and JSON data are exchanded with HTTP req
 
 It is expected the same model should be used at the Front-end thus there will a integrity and consistancy.
 
+## Workflow
+![Workflow](https://github.com/Utshab500/express_POC/blob/master/workflow.png "Workflow")
+
 ## Pre-requisits
 
  1. NodeJS
