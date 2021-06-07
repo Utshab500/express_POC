@@ -13,6 +13,14 @@ It is expected the same model should be used at the Front-end thus there will a 
 ## Workflow
 ![Workflow](https://github.com/Utshab500/express_POC/blob/master/workflow.png "Workflow")
 
+## Technology Stack
+
+|Technology |Version  
+|------------|-------|
+|NodeJS| 10.0 |
+|ExpressJS| 4.17.1 |
+|MongoDB|3.6.3 |
+
 ## Pre-requisits
 
  1. NodeJS
