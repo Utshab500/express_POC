@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: expresspoc 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expresspoc
+  template:
+    metadata:
+      labels:
+        app: expresspoc 
+    spec:
+      containers:
+        - name: expresspoc 
+          image: ayushsittregistry.azurecr.io/expresspoc
+          ports:
+          - containerPort: 80

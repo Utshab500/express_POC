@@ -1,0 +1,127 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: utshabACR
+  imageRepository: 'expresspoc'
+  containerRegistry: 'utshabacr.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'ayushsittregistry1633dbe8-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - upload: manifests
+      artifact: manifests
+
+
+- stage: IntergrationTest
+  displayName: Integration Test
+  dependsOn: Build
+  jobs:
+  - job: IntegrationTest
+    displayName: IntegrationTest
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Visual Studio Enterprise Subscription(bea9cd82-6c53-477c-9715-033114212835)'
+        azureContainerRegistry: '{"loginServer":"utshabacr.azurecr.io", "id" : "/subscriptions/bea9cd82-6c53-477c-9715-033114212835/resourceGroups/poc/providers/Microsoft.ContainerRegistry/registries/utshabACR"}'
+        dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFileArgs: 'IMAGE_NAME=$(containerRegistry)/$(imageRepository):$(tag)'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up -d'
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your commands here
+          # hostname
+          # docker images
+          docker ps
+          echo "=> 1st try"
+          docker ps
+          echo "=> 2nd try"
+          docker ps
+          echo "=======printing logs============="
+          docker logs express_poc_express-poc_1
+          echo "================================="
+          # curl http://localhost:3000/
+          curl -k https://127.0.0.1:3000/
+          # curl http://localhost/get_user
+          # curl -XPOST -H "Content-type: application/json" -d '{ "name": "chandan", "designation": "cleark" }' http://localhost/add_user
+          # curl http://localhost/get_user
+          export IMAGE_NAME=$(containerRegistry)/$(imageRepository):$(tag)
+          echo "=======printing logs============="
+          docker logs express_poc_express-poc_1
+          echo "================================="
+          sleep 30
+          docker-compose down
+    
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: IntergrationTest
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'expressPOC.default'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment.yml
+                $(Pipeline.Workspace)/manifests/service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
+
