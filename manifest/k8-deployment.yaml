@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: express-poc
+  name: express-poc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: express-poc
+  template:
+    metadata:
+      labels:
+        app: express-poc
+    spec:
+      containers:
+      - image: utssaha/express_poc:v1
+        name: express-poc-bk5tn
+        ports:
+        - containerPort: 3000
+          protocol: TCP
