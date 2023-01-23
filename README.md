@@ -106,3 +106,11 @@ It is expected the same model should be used at the Front-end thus there will a 
 1. Get all --> which is self explanetory
  2. Get specific --> This accepts **task** as the query parameters. It should be a **Base64 encoded** JSON object which will get converter to **Task** model.  Example: `{ "_id" : "tk_562795220939", "title" : "task3" }`
 
+## Run with Docker
+
+1. Install Docker
+2. Clone this repository
+3. Run `docker-compose up -d` and wait untill the command execution completes
+4. Access **API Endpoints** using `port=80` example `http://<IP Address>/{params}`
+5. To tear down the stack execute `docker-compose down`
+

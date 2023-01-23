@@ -9,8 +9,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
-  express-poc:
-    image: "${IMAGE_NAME}"
+  express-poc:    
+    build: .
     restart: always
     ports:
     - "80:3000"
